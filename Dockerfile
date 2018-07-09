@@ -4,6 +4,7 @@ ARG MULE_FOLDER=mule-standalone-${MULECE_VERSION}
 ARG MULE_ARCHIVE=${MULE_FOLDER}.tar.gz
 ARG http_proxy
 ARG https_proxy
+ENV MULE_HOME /opt/mule
 RUN apk add wget maven
 RUN wget https://repository.mulesoft.org/nexus/content/repositories/public/org/mule/distributions/mule-standalone/${MULECE_VERSION}/mule-standalone-${MULECE_VERSION}.tar.gz
 RUN tar xvfz ${MULE_ARCHIVE}
@@ -13,3 +14,6 @@ RUN mv ${MULE_FOLDER} /opt/mule
 WORKDIR /opt/mule
 RUN rm -rf examples
 RUN rm -rf src
+VOLUME ["/opt/mule/logs", "/opt/mule/conf", "/opt/mule/apps", "/opt/mule/domains"]
+CMD [ "/opt/mule/bin/mule" ]
+EXPOSE 8081
